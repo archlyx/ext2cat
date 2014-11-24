@@ -27,3 +27,11 @@
 *.i*86
 *.x86_64
 *.hex
+
+# Exceptions
+!skeleton/reference-Darwin-x86_64.o
+!skeleton/reference-Linux-i686.o
+!skeleton/reference-Linux-x86_64.o
+!src/reference-Darwin-x86_64.o
+!src/reference-Linux-i686.o
+!src/reference-Linux-x86_64.o
