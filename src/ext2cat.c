@@ -41,11 +41,27 @@ int main(int argc, char ** argv) {
         bytes_read += bytes_to_read;
     }
 
-    write(1, buf, bytes_read);
     if (bytes_read < size) {
-        printf("%s: file uses indirect blocks. output was truncated!\n",
-               argv[0]);
+        /*printf("%s: file uses indirect blocks. output was truncated!\n",
+               argv[0]);*/
+
+        /* Get the number of the block that stores the array of indirect block numbers */
+        __u32 * indir_block = get_block(fs, target_ino->i_block[EXT2_NDIR_BLOCKS]);
+
+        /* Calculate the limit of the number of the indirect blocks*/
+        int limit = block_size / sizeof(__u32);
+
+        for (int i = 0; i < limit; i++) {
+            bytes_left = size - bytes_read;
+            if (bytes_left == 0) break;
+            __u32 bytes_to_read = bytes_left > block_size ? block_size : bytes_left;
+            void * block = get_block(fs, indir_block[i]);
+            memcpy(buf + bytes_read, block, bytes_to_read);
+            bytes_read += bytes_to_read;
+        }
     }
+
+    write(1, buf, bytes_read);
 
     return 0;
 }
