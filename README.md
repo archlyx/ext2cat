@@ -33,7 +33,7 @@ Using the `name` and `name_len` one can compare with the given name and once the
 #### inode from the whole path ####
 The whole path should firstly divided using the given function `split_path`, and the number of directories can be counted via the number of slashes in the path. Then the function `get_inode_from_dir` is recursively called for each level of directory, and the inode of the given file can be found.
 
-### INDIRECT BLOCKS (EXTRA CREDIT) ###
+### Indirect blocks (EXTRA CREDIT) ###
 The information of the indirect blocks is stored as an array of block numbers in another block. Its block number is then stored in the `EXT2_NDIR_BLOCKS` block. The size of each block number is `sizeof(__u32)`, thus one block can at most store `block_size / sizeof(__u32)` block numbers, and this is the limit of the number of indirect blocks. In the current implementation, we just go to special block record in the inode and find the block number arrays, and continue reading them until the bytes already read equals to the real size. 
 
 ## RESULTS ##
